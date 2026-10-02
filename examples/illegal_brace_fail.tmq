@@ -1,0 +1,6 @@
+# testing illegal braces outside quarantine
+gene main():
+    dna x = 10
+    if x > 5 {
+        print("this should fail")
+    }

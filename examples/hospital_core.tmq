@@ -1,0 +1,47 @@
+# ==========================================
+# File: hospital_core.tmq
+# Lang: TumorScript (.tmq)
+# ==========================================
+
+metastasis System.IO
+
+cell PatientRecord:
+    dna age = 30
+    dna heart_rate = 75
+    rna blood_type = "AB+"
+
+gene calculate_dosage(patient):
+    dna base_dosage = patient.age * 1.5
+
+    if patient.age > 40:
+        print("Critical Age Threshold Exceeded:", patient.age)
+
+    apoptosis base_dosage
+
+gene main():
+    dna cycle = 0
+    dna p1 = mitosis PatientRecord()
+
+    print("--- CYCLE START (Mutation Phase) ---")
+
+    while cycle < 5:
+        cycle = cycle + 1
+
+        print("Pulse Data (Read ", cycle, "): ", p1.heart_rate)
+
+        if p1.heart_rate > 78:
+            print("Pulse data corrupted, applying chemo...")
+            chemo p1.heart_rate
+            print("Post-Treatment Pulse:", p1.heart_rate)
+
+    print("\n--- STERILE QUARANTINE ZONE ---")
+
+    quarantine {
+        dna safe_age = p1.age
+        dna exact_calc = safe_age * 10
+        print("[STERILE] Frozen Age Data:", safe_age)
+        print("[STERILE] Precise Calculation:", exact_calc)
+    }
+
+    dna final_dosage = calculate_dosage(p1)
+    print("Final Dosage Output:", final_dosage)

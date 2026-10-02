@@ -1,0 +1,12 @@
+# testing quarantine limit enforcement
+gene main():
+    dna x = 10
+    quarantine {
+        dna a = 1
+        dna b = 2
+        dna c = 3
+        dna d = 4
+        dna e = 5
+        dna f = 6
+    }
+    print(x)

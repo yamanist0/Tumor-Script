@@ -1,0 +1,35 @@
+{
+  "name": "tumorscript",
+  "version": "0.1.0",
+  "description": "An esoteric, biomorphic programming language runtime where data mutates when observed",
+  "bin": {
+    "tumorscript": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "node ./bin/cli.js examples/simple_test.tmq",
+    "build:win": "build.bat",
+    "build:unix": "bash build.sh"
+  },
+  "keywords": [
+    "tumorscript",
+    "esoteric",
+    "biomorphic",
+    "programming-language",
+    "interpreter",
+    "compiler",
+    "runtime"
+  ],
+  "author": "TumorScript Contributors",
+  "license": "MIT",
+  "files": [
+    "bin/cli.js",
+    "bin/tumorscript.exe",
+    "bin/tumorscript",
+    "main.lua",
+    "src/",
+    "README.md",
+    "icon.ico",
+    "register_file_association.bat",
+    "unregister_file_association.bat"
+  ]
+}

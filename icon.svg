@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="6" fill="#0D1117"/>
+  <!-- Left Brace -->
+  <path d="M 8 9 C 6 9, 6 13, 4 16 C 6 19, 6 23, 8 23" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"/>
+  <!-- Right Brace -->
+  <path d="M 24 9 C 26 9, 26 13, 28 16 C 26 19, 26 23, 24 23" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"/>
+  <!-- Mutated Core -->
+  <circle cx="15" cy="16" r="4" fill="#E11D48"/>
+  <circle cx="18" cy="14" r="2" fill="#F43F5E"/>
+</svg>

@@ -1,0 +1,9 @@
+# npm ignore file
+target/
+Cargo.lock
+src_native/
+wiki/
+dist/
+build.bat
+build.sh
+*.whl

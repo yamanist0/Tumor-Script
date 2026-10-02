@@ -1,0 +1,28 @@
+# rust build output
+target/
+**/*.rs.bk
+
+# python build and egg output
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+env/
+venv/
+
+# node dependencies and logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.tmp

@@ -1,0 +1,10 @@
+# simple test - just dna mutation and print
+gene main():
+    dna x = 100
+    dna i = 0
+
+    while i < 3:
+        i = i + 1
+        print("read ", i, ": x = ", x)
+
+    print("done")
