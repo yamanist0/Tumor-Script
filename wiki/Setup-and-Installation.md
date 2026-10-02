@@ -33,6 +33,9 @@ Verify the installation:
 tumorscript path/to/script.tmq
 ```
 
+> **Note on GitHub Actions Wiki Sync:**  
+> GitHub does not automatically create the `.wiki.git` repository when a repo is created. To enable automatic syncing via `.github/workflows/wiki-sync.yml`, you must visit `https://github.com/yamanist0/Tumor-Script/wiki` on GitHub once and click **"Create the first page"**. After saving any initial page, GitHub provisions the `.wiki.git` repository and the action will succeed.
+
 ---
 
 ## 2. Building from Source (Standalone Native Binary)
