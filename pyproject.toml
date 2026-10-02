@@ -21,6 +21,12 @@ classifiers = [
 [project.scripts]
 tumorscript = "tumorscript.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/yamanist0/Tumor-Script"
+Documentation = "https://github.com/yamanist0/Tumor-Script/wiki"
+Repository = "https://github.com/yamanist0/Tumor-Script.git"
+Issues = "https://github.com/yamanist0/Tumor-Script/issues"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["tumorscript*"]

@@ -21,6 +21,14 @@
   ],
   "author": "TumorScript Contributors",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamanist0/Tumor-Script.git"
+  },
+  "homepage": "https://github.com/yamanist0/Tumor-Script#readme",
+  "bugs": {
+    "url": "https://github.com/yamanist0/Tumor-Script/issues"
+  },
   "files": [
     "bin/cli.js",
     "bin/tumorscript.exe",

@@ -11,7 +11,7 @@
 <!-- project logo -->
 <br />
 <div align="center">
-  <a href="https://github.com/yaman/tumor_script">
+  <a href="https://github.com/yamanist0/Tumor-Script">
     <img src="icon.svg" alt="TumorScript Logo" width="100" height="100">
   </a>
 
@@ -23,14 +23,14 @@
     <em>Where data decays when observed, variables spread contagious infections, and developers race against systemic organ failure.</em>
     <br />
     <br />
-    <a href="wiki/Home.md"><strong>Explore the Wiki Documentation »</strong></a>
+    <a href="https://github.com/yamanist0/Tumor-Script/wiki"><strong>Explore the Wiki Documentation »</strong></a>
     <br />
     <br />
     <a href="examples/hospital_core.tmq">View Clinical Sample</a>
     &middot;
-    <a href="https://github.com/yaman/tumor_script/issues">Report Biological Mutation</a>
+    <a href="https://github.com/yamanist0/Tumor-Script/issues">Report Biological Mutation</a>
     &middot;
-    <a href="https://github.com/yaman/tumor_script/issues">Request Genetic Feature</a>
+    <a href="https://github.com/yamanist0/Tumor-Script/issues">Request Genetic Feature</a>
   </p>
 </div>
 
@@ -340,7 +340,7 @@ Notice that:
 - [ ] CRISPR Gene Editing: Runtime AST self-modifying code rewrite engine
 - [ ] Terminal flatline audio sound effects upon organ failure
 
-See the [open issues](https://github.com/yaman/tumor_script/issues) for a full list of proposed features and clinical bug reports.
+See the [open issues](https://github.com/yamanist0/Tumor-Script/issues) for a full list of proposed features and clinical bug reports.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -368,11 +368,11 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- contact -->
 ## Contact
 
-TumorScript Project - [@tumorscript](https://github.com/yaman/tumor_script)
+TumorScript Project - [@yamanist0](https://github.com/yamanist0/Tumor-Script)
 
-Project Link: [https://github.com/yaman/tumor_script](https://github.com/yaman/tumor_script)
+Project Link: [https://github.com/yamanist0/Tumor-Script](https://github.com/yamanist0/Tumor-Script)
 
-Wiki Documentation: [https://github.com/yaman/tumor_script/wiki](wiki/Home.md)
+Wiki Documentation: [https://github.com/yamanist0/Tumor-Script/wiki](https://github.com/yamanist0/Tumor-Script/wiki)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -390,18 +390,18 @@ Wiki Documentation: [https://github.com/yaman/tumor_script/wiki](wiki/Home.md)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- markdown links and images -->
-[contributors-shield]: https://img.shields.io/github/contributors/yaman/tumor_script.svg?style=for-the-badge
-[contributors-url]: https://github.com/yaman/tumor_script/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/yaman/tumor_script.svg?style=for-the-badge
-[forks-url]: https://github.com/yaman/tumor_script/network/members
-[stars-shield]: https://img.shields.io/github/stars/yaman/tumor_script.svg?style=for-the-badge
-[stars-url]: https://github.com/yaman/tumor_script/stargazers
-[issues-shield]: https://img.shields.io/github/issues/yaman/tumor_script.svg?style=for-the-badge
-[issues-url]: https://github.com/yaman/tumor_script/issues
+[contributors-shield]: https://img.shields.io/github/contributors/yamanist0/Tumor-Script.svg?style=for-the-badge
+[contributors-url]: https://github.com/yamanist0/Tumor-Script/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/yamanist0/Tumor-Script.svg?style=for-the-badge
+[forks-url]: https://github.com/yamanist0/Tumor-Script/network/members
+[stars-shield]: https://img.shields.io/github/stars/yamanist0/Tumor-Script.svg?style=for-the-badge
+[stars-url]: https://github.com/yamanist0/Tumor-Script/stargazers
+[issues-shield]: https://img.shields.io/github/issues/yamanist0/Tumor-Script.svg?style=for-the-badge
+[issues-url]: https://github.com/yamanist0/Tumor-Script/issues
 [license-shield]: https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge
 [license-url]: LICENSE
 [version-shield]: https://img.shields.io/badge/version-0.1.0-rose.svg?style=for-the-badge
-[version-url]: https://github.com/yaman/tumor_script/releases
+[version-url]: https://github.com/yamanist0/Tumor-Script/releases
 [product-screenshot]: icon.svg
 [Rust-badge]: https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white
 [Rust-url]: https://www.rust-lang.org/
