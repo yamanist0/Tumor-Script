@@ -116,11 +116,7 @@ Every time a CPU instruction observes a piece of DNA data, $\delta$ climbs from 
 
 ### File Extension
 
-TumorScript programs use the official `.tmq` (Tumor Quarantine) file extension:
-
-| Extension | Name | Biosafety Level | Purpose |
-|---|---|---|---|
-| `.tmq` | Tumor Quarantine | Level 4 (Primary) | Official executable files containing quarantine chambers and program logic. |
+TumorScript uses exclusively the `.tmq` (Tumor Quarantine) file extension for executable source files. All interpreters and compilers require this extension to execute program logic and quarantine chambers.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

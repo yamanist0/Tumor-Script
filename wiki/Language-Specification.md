@@ -16,13 +16,7 @@ TumorScript is an experimental programming language merging biological principle
 
 ## 2. File Specification
 
-TumorScript standardizes on a single official file format:
-
-| Extension | Formal Name | Containment Level | Description |
-|---|---|---|---|
-| `.tmq` | Tumor Quarantine | Level 4 (Primary) | Official executable source file containing cellular logic, quarantine chambers, and program entrypoints. |
-
-All TumorScript interpreters and compilers require the `.tmq` extension for source execution.
+TumorScript uses exclusively the `.tmq` (Tumor Quarantine) file extension for executable source files. All interpreters and compilers require this extension to execute program logic, cellular definitions, and quarantine chambers.
 
 ---
 

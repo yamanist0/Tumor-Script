@@ -33,10 +33,6 @@ Verify the installation:
 tumorscript path/to/script.tmq
 ```
 
-> **Note on GitHub Actions Wiki Sync:**  
-> GitHub does not automatically create the `.wiki.git` repository when a repo is created. To enable automatic syncing via `.github/workflows/wiki-sync.yml`, you must visit `https://github.com/yamanist0/Tumor-Script/wiki` on GitHub once and click **"Create the first page"**. After saving any initial page, GitHub provisions the `.wiki.git` repository and the action will succeed.
-
----
 
 ## 2. Building from Source (Standalone Native Binary)
 
@@ -54,7 +50,6 @@ build.bat
 ```
 
 * Output location: `bin\tumorscript.exe` (~547 KB)
-* Embeds: `icon.ico` directly into the Windows executable resource table.
 
 ### Linux / macOS Build
 Run the Unix build script:
@@ -95,7 +90,6 @@ You can register file associations using either method:
    ```
 
 ### What Happens When Registered:
-* **Custom Icon:** All `.tmq` files on your desktop and file explorer immediately adopt the official `icon.ico`.
 * **Double-Click Execution:** Double-clicking any `.tmq` file launches `cmd.exe /c ""tumorscript.exe" "%1" & pause"`.
 * **Persistent Console:** The terminal window remains open after execution finishes, allowing you to inspect mutation values, print outputs, and quarantine stats before closing.
 * **No Admin Rights Required:** Registration is scoped to `HKEY_CURRENT_USER\Software\Classes`, meaning it functions without administrator elevation.
