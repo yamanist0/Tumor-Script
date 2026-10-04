@@ -16,45 +16,73 @@ local function read_file(path)
     return content
 end
 
+local function print_help(prog)
+    print("TumorScript Interpreter v1.0.0")
+    print("usage: " .. prog .. " [options] [file.tmq]")
+    print("\noptions:")
+    print("  -i, --repl        launch interactive biomorphic shell")
+    print("  -h, --help        show this help message")
+    print("  -v, --version     show version")
+    print("  --register        register .tmq file association (windows)")
+    print("  --unregister      unregister .tmq file association (windows)")
+end
+
 local function main()
     local filename = arg and arg[1]
-    if not filename then
-        local prog = "tumorscript"
-        if arg and arg[0] and not arg[0]:match("tumorscript") then
-            prog = "lua main.lua"
-        end
-        print("TumorScript Interpreter v0.1")
-        print("usage: " .. prog .. " <file.tmq>")
+    local prog = "tumorscript"
+    if arg and arg[0] and not arg[0]:match("tumorscript") then
+        prog = "lua main.lua"
+    end
+
+    if filename == "--help" or filename == "-h" then
+        print_help(prog)
         os.exit(0)
     end
 
-    -- only allow .tmq files for now
+    if filename == "--version" or filename == "-v" then
+        print("TumorScript v1.0.0")
+        os.exit(0)
+    end
+
+    -- start interactive repl when no arguments provided
+    if not filename or filename == "--repl" or filename == "-i" then
+        local repl = require("src.repl")
+        repl.start()
+        os.exit(0)
+    end
+
+    -- only allow tmq files for execution
     if not filename:match("%.tmq$") then
         print("FATAL: only .tmq files are supported")
         os.exit(1)
     end
 
+    -- seed random generator for live entropy
+    pcall(function()
+        math.randomseed(os.time() + math.floor((os.clock() or 0) * 1000000))
+    end)
+
     local source = read_file(filename)
     
-    -- phase 1: tokenize
+    -- tokenize input
     local tokens, lex_err = lexer.tokenize(source, filename)
     if lex_err then
         print("LEXER_FAILURE: " .. lex_err)
         os.exit(1)
     end
 
-    -- phase 2: parse into ast
+    -- parse into ast
     local ast, parse_err = parser.parse(tokens, source)
     if parse_err then
         print("PARSER_FAILURE: " .. parse_err)
         os.exit(1)
     end
 
-    -- phase 3: interpret with biomorphic runtime
-    local runtime = interpreter.new(ast, source)
+    -- interpret with biomorphic runtime
+    local runtime = interpreter.new(ast, source, filename)
     local ok, runtime_err = runtime:execute()
     if not ok then
-        print("ORGAN_FAILURE_EXCEPTION: " .. (runtime_err or "unknown catastrophic failure"))
+        print(runtime_err or "unknown catastrophic failure")
         os.exit(1)
     end
 end

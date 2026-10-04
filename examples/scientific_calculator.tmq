@@ -1,0 +1,198 @@
+# biomorphic scientific calculator
+# written in tumorscript for clinical precision and biological entropy
+
+cell CalculatorState:
+    dna ans = 0
+    dna memory = 0
+    dna precision = 6
+    rna mode = "DEG"
+    dna ops_count = 0
+
+# computes factorial iteratively
+gene factorial(n):
+    rna limit = n
+    if limit <= 1:
+        apoptosis 1
+    dna result = 1
+    dna i = 2
+    while i <= limit:
+        result = result * i
+        i = i + 1
+    apoptosis result
+
+# calculates permutations
+gene permutations(n, r):
+    if r > n or r < 0:
+        apoptosis 0
+    if r == 0:
+        apoptosis 1
+    dna num = factorial(n)
+    dna den = factorial(n - r)
+    apoptosis num / den
+
+# calculates combinations
+gene combinations(n, r):
+    if r > n or r < 0:
+        apoptosis 0
+    if r == 0 or r == n:
+        apoptosis 1
+    dna num = factorial(n)
+    dna den = factorial(r) * factorial(n - r)
+    apoptosis num / den
+
+# calculates triangle hypotenuse
+gene hypotenuse(a, b):
+    dna sum_sq = (a * a) + (b * b)
+    apoptosis sqrt(sum_sq)
+
+# evaluates trigonometric functions in degrees
+gene trig_deg(fn_name, angle_deg):
+    rna op = fn_name
+    rna ang = angle_deg
+    dna angle_rad = rad(ang)
+    if op == "sin":
+        apoptosis sin(angle_rad)
+    elif op == "cos":
+        apoptosis cos(angle_rad)
+    elif op == "tan":
+        apoptosis tan(angle_rad)
+    elif op == "asin":
+        dna val = asin(ang)
+        apoptosis deg(val)
+    elif op == "acos":
+        dna val = acos(ang)
+        apoptosis deg(val)
+    elif op == "atan":
+        dna val = atan(ang)
+        apoptosis deg(val)
+    apoptosis 0
+
+# renders terminal calculator screen
+gene render_screen(calc, operation, result):
+    print("┌──────────────────────────────────────────────────────────────────┐")
+    print("│         T U M O R S C R I P T   S C I E N T I F I C   v1.0.0     │")
+    print("│             Biomorphic Precision Laboratory Unit                 │")
+    print("├──────────────────────────────────────────────────────────────────┤")
+    print("│ MODE: DEG      │ REGS: MEM=", round(calc.memory, 4), " ANS=", round(calc.ans, 4))
+    print("├──────────────────────────────────────────────────────────────────┤")
+    print("│ OP:  ", operation)
+    print("│ RES: ", result)
+    print("└──────────────────────────────────────────────────────────────────┘")
+
+# sterile cleanroom high precision calculation
+gene sterile_high_precision_benchmark(x):
+    # compute series inside sterile quarantine chamber
+    quarantine {
+        dna exact_val = x * 1.5
+        dna quad = (exact_val * exact_val) + 100
+        dna root = sqrt(quad)
+        print("  [STERILE CLEANROOM] exact root result: ", root)
+    }
+    apoptosis x
+
+# runs automated scientific test suite
+gene run_scientific_benchmark(calc):
+    print("\n====================================================================")
+    print("   RUNNING AUTOMATED CLINICAL BENCHMARK SUITE")
+    print("====================================================================")
+
+    # 1 basic arithmetic and roots
+    dna a = 42
+    dna b = 8
+    dna sum = a + b
+    dna root = sqrt(1764)
+    dna power = pow(2, 10)
+    print("\n[1] ARITHMETIC & POWERS:")
+    print("  42 + 8             = ", sum)
+    print("  sqrt(1764)         = ", root)
+    print("  2 ^ 10             = ", power)
+    calc.ans = power
+
+    # 2 trigonometry in degrees
+    print("\n[2] TRIGONOMETRY (DEGREES):")
+    dna s30 = trig_deg("sin", 30)
+    dna c60 = trig_deg("cos", 60)
+    dna t45 = trig_deg("tan", 45)
+    dna pythagorean = (s30 * s30) + (c60 * c60)
+    print("  sin(30 deg)        = ", round(s30, 4))
+    print("  cos(60 deg)        = ", round(c60, 4))
+    print("  tan(45 deg)        = ", round(t45, 4))
+    print("  sin(30)^2 + cos(60)^2 = ", round(pythagorean, 4))
+
+    # 3 logarithms and exponentials
+    print("\n[3] LOGARITHMIC & EXPONENTIAL:")
+    dna e_const = exp(1)
+    dna ln_e = log(e_const)
+    dna log_1000 = log10(1000)
+    dna exp_3 = exp(3)
+    print("  e constant         = ", round(e_const, 6))
+    print("  ln(e)              = ", round(ln_e, 6))
+    print("  log10(1000)        = ", round(log_1000, 4))
+    print("  exp(3)             = ", round(exp_3, 4))
+
+    # 4 combinatorics and discrete math
+    print("\n[4] COMBINATORICS & PROBABILITY:")
+    dna f6 = factorial(6)
+    dna p7_3 = permutations(7, 3)
+    dna c10_4 = combinations(10, 4)
+    print("  6! (factorial)     = ", f6)
+    print("  P(7, 3)            = ", p7_3)
+    print("  C(10, 4)           = ", c10_4)
+
+    # 5 geometry and vectors
+    print("\n[5] GEOMETRY & CONSTANTS:")
+    dna hyp = hypotenuse(20, 21)
+    dna circle_r = 7
+    dna pi_val = pi()
+    dna circle_area = pi_val * circle_r * circle_r
+    print("  hypotenuse(20, 21) = ", hyp)
+    print("  pi constant        = ", round(pi_val, 8))
+    print("  circle area (r=7)  = ", round(circle_area, 4))
+
+    # 6 memory and chemotherapy
+    print("\n[6] CELLULAR MEMORY & INTERVENTION:")
+    calc.memory = circle_area
+    print("  stored in memory   : ", round(calc.memory, 4))
+    dna recalled = calc.memory
+    print("  recalled memory    : ", round(recalled, 4))
+    print("  applying chemotherapy to memory register...")
+    chemo calc.memory
+    print("  post chemo memory  : ", calc.memory)
+
+    # 7 sterile quarantine cleanroom
+    print("\n[7] STERILE QUARANTINE PRECISION:")
+    sterile_high_precision_benchmark(120)
+
+    render_screen(calc, "BENCHMARK SUITE COMPLETE", calc.ans)
+
+# main entrypoint for the calculator
+gene main():
+    dna calc = mitosis CalculatorState()
+    calc.ans = 0
+
+    render_screen(calc, "INITIALIZED", "READY")
+
+    # execute automated scientific benchmark
+    run_scientific_benchmark(calc)
+
+    print("\nType commands to interact, or press enter to complete.")
+    dna prompt_text = "calc [1:sin, 2:cos, 3:sqrt, 4:fact, 5:hypot, 6:exit] > "
+    rna choice = absorb(prompt_text)
+    
+    if choice == "1":
+        dna res = trig_deg("sin", 45)
+        render_screen(calc, "sin(45 deg)", res)
+    elif choice == "2":
+        dna res = trig_deg("cos", 45)
+        render_screen(calc, "cos(45 deg)", res)
+    elif choice == "3":
+        dna res = sqrt(256)
+        render_screen(calc, "sqrt(256)", res)
+    elif choice == "4":
+        dna res = factorial(7)
+        render_screen(calc, "factorial(7)", res)
+    elif choice == "5":
+        dna res = hypotenuse(5, 12)
+        render_screen(calc, "hypotenuse(5, 12)", res)
+    else:
+        print("[cellular apoptosis] session closed cleanly.")

@@ -12,7 +12,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/yamanist0/Tumor-Script">
-    <img src="icon.svg" alt="TumorScript Logo" width="100" height="100">
+    <img src="https://raw.githubusercontent.com/yamanist0/Tumor-Script/main/icon.svg" alt="TumorScript Logo" width="100" height="100">
   </a>
 
   <h1 align="center">TumorScript</h1>
@@ -26,7 +26,7 @@
     <a href="https://github.com/yamanist0/Tumor-Script/wiki"><strong>Explore the Wiki Documentation »</strong></a>
     <br />
     <br />
-    <a href="examples/hospital_core.tmq">View Clinical Sample</a>
+    <a href="https://github.com/yamanist0/Tumor-Script/blob/main/examples/hospital_core.tmq">View Clinical Sample</a>
     &middot;
     <a href="https://github.com/yamanist0/Tumor-Script/issues">Report Biological Mutation</a>
     &middot;
@@ -43,8 +43,8 @@
       <ul>
         <li><a href="#the-biological-philosophy">The Biological Philosophy</a></li>
         <li><a href="#core-biomorphic-mechanisms">Core Biomorphic Mechanics</a></li>
-        <li><a href="#file-extension-taxonomy">File Extension Taxonomy</a></li>
-        <li><a href="#keyword-dictionary">Keyword Dictionary</a></li>
+        <li><a href="#file-extension">File Extension</a></li>
+        <li><a href="#keyword--built-in-dictionary">Keyword & Built-in Dictionary</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -60,8 +60,10 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
+        <li><a href="#interactive-cellular-shell-repl">Interactive Cellular Shell (REPL)</a></li>
         <li><a href="#clinical-case-study-hospital_coretmq">Clinical Case Study</a></li>
         <li><a href="#runtime-mutation-trace">Runtime Mutation Trace</a></li>
+        <li><a href="#metastasis-call-stack--autopsy-traceback">Metastasis Call Stack & Traceback</a></li>
         <li><a href="#oncology-survival-guide">Oncology Survival Guide</a></li>
       </ul>
     </li>
@@ -76,7 +78,7 @@
 <!-- about the project -->
 ## About The Project
 
-[![TumorScript Banner][product-screenshot]](wiki/Home.md)
+[![TumorScript Banner][product-screenshot]](https://github.com/yamanist0/Tumor-Script/wiki)
 
 Modern computer science spent six decades obsessed with "determinism", "memory safety", and "predictable side effects". **What a sterile, boring way to compute.**
 
@@ -112,32 +114,65 @@ Every time a CPU instruction observes a piece of DNA data, $\delta$ climbs from 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### File Extension Taxonomy
+### File Extension
 
-TumorScript classifies source code into containment biosafety levels:
+TumorScript programs use the official `.tmq` (Tumor Quarantine) file extension:
 
 | Extension | Name | Biosafety Level | Purpose |
 |---|---|---|---|
-| `.tmq` | Tumor Quarantine | Level 4 (Primary) | Main executable files containing quarantine chambers and program logic. |
-| `.tmr` | Tumor Source Module | Level 3 (Intermediate) | Importable cellular modules and secondary logic units. |
-| `.tmh` | Tumor Header | Level 1 (Sterile) | Mutation-proof header files containing exclusively immutable `rna` constants. |
-| `.tmz` | Tumor Zone | Level 5 (Extreme Hazard) | High-risk experimental zones where mutation and metastasis rates are tenfold. |
-| `.tmb` | Tumor Bytecode | Machine Artifact | Compiled intermediate binary bytecode for the virtual machine. |
+| `.tmq` | Tumor Quarantine | Level 4 (Primary) | Official executable files containing quarantine chambers and program logic. |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Keyword Dictionary
+### Keyword & Built-in Dictionary
 
-| Standard Syntax | TumorScript Keyword | Biological Role |
+| Standard Syntax | TumorScript Construct | Biological Role |
 |---|---|---|
 | `var` / `let` | `dna` | Mutable variable subject to decay on every read. |
 | `const` | `rna` | Mutation-immune constant. |
+| `array` / `list` | `tumor(...)` / `[...]` | Ordered cluster of cells; reading elements mutates them. |
+| `dict` / `map` | `membrane(...)` | Cell membrane receptor-ligand key-value pairs. |
+| `break` | `remission` | Premature cessation of loop iteration (tumor remission). |
+| `continue` | `relapse` | Skip remainder of cycle and jump to next phase (tumor relapse). |
+| `for ... in` | `for cell in cluster:` | Cellular iteration over tumors, membranes, and sequences. |
+| `range(start, stop)` | `range(...)` | Generates a sequential tumor growth array. |
+| ⭐ *Unique* | `necrosis(N, val)` | Timed cell death; automatically decays and dies after N reads. |
+| `biopsy(t, idx)` | `biopsy` | Surgical clean read of a tumor element without mutation. |
+| `spread(t, val)` | `spread` | Appends a new cell to a tumor growth cluster. |
+| `excise(t, idx)` | `excise` | Surgically removes and returns a cell from a tumor. |
+| `len(x)` | `mass(x)` | Measures biological tumor mass, membrane receptor count, or string length. |
+| `typeof(x)` | `strain(x)` | Identifies biological data strain ("tumor", "membrane", "cell", etc.). |
+| `bind / unbind` | `bind / unbind` | Attaches or removes receptor ligands on a cell membrane. |
+| `keys(m)` | `receptors(m)` | Extracts all bound receptor keys from a cell membrane as a tumor. |
 | `class` / `struct` | `cell` | Living cellular blueprint containing state and traits. |
 | `function` / `def` | `gene` | Cellular functional logic; degrades if fed mutated arguments. |
 | `new` / `clone` | `mitosis` | Duplicates and spawns an independent living cell instance. |
 | `return` | `apoptosis` | Programmed cell death; cleans up scope and yields data. |
 | `import` | `metastasis` | Cross-module dissemination of code and functions. |
 | `try` / `catch` | `quarantine` / `chemo` | Isolation and toxic intervention strategies. |
+| **I/O** | | |
+| `input(prompt?)` | `absorb(prompt?)` | Read a line from standard input (user absorption). |
+| `read_file(path)` | `ingest(path)` | Ingest file contents into a string. |
+| `write_file(path, data)` | `secrete(path, data)` | Secrete data into a file (overwrite). |
+| `append_file(path, data)` | `infiltrate(path, data)` | Infiltrate additional data into an existing file. |
+| `file_exists(path)` | `file_exists(path)` | Check if a file path exists. |
+| **String & Array** | | |
+| `split(str, sep?)` | `lyse(str, sep?)` | Lyse a string into a tumor array by separator. |
+| `join(tumor, sep?)` | `fuse(tumor, sep?)` | Fuse tumor array elements into a single string. |
+| `upper(str)` | `hypertrophy(str)` | Aggressive uppercase conversion (cellular overgrowth). |
+| `lower(str)` | `atrophy(str)` | Lowercase degradation (tissue atrophy). |
+| `trim(str)` | `trim(str)` | Strip leading/trailing whitespace. |
+| `contains(col, val)` | `contains(col, val)` | Test if a string, tumor, or membrane contains a value. |
+| `slice(col, s, e?)` | `resect(col, s, e?)` | Surgical sub-range extraction (resection). |
+| **Math** | | |
+| `sqrt / floor / ceil` | `sqrt / floor / ceil` | Standard math operations. |
+| `round(x, d?)` | `round(x, d?)` | Round to `d` decimal places. |
+| `abs / min / max / pow` | `abs / min / max / pow` | Absolute value, extrema, and exponentiation. |
+| `random(...)` | `random(...)` | Pseudo-random number generation. |
+| **Time** | | |
+| `sleep(seconds)` | `dormancy(seconds)` | Suspend execution (cellular dormancy). |
+| `time()` | `time()` | Unix epoch timestamp. |
+| `clock()` | `metabolism()` | High-resolution CPU clock (metabolic rate). |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -179,7 +214,11 @@ pip install tumorscript
 
 Once installed, the `tumorscript` command is available system-wide:
 ```sh
+# Execute a script
 tumorscript examples/hospital_core.tmq
+
+# Or launch the interactive cellular shell (REPL)
+tumorscript
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -227,6 +266,44 @@ tumorscript --unregister
 
 <!-- usage examples -->
 ## Usage
+
+### Interactive Cellular Shell (REPL)
+
+Running `tumorscript` with no arguments opens the real-time biomorphic REPL. You can declare variables, execute functions, and watch data drift live as it is observed:
+
+```text
+$ tumorscript
+======================================================================
+  TumorScript Interactive Malignancy Shell (REPL) v1.0.0
+  Type expressions to evaluate or statements to execute.
+  Type ':help' for clinical commands, ':exit' to quit.
+======================================================================
+>>> dna white_blood_cells = 4500
+>>> white_blood_cells
+4518.239102
+>>> white_blood_cells
+4482.019481
+>>> hypertrophy("malignant growth")
+"MALIGNANT GROWTH"
+>>> :vitals
+
+--- SPECIMEN VITALS (Active Heap Telemetry) ---
+Specimen            Strain Value            Reads  Mutation   Status
+--------------------------------------------------------------------------
+white_blood_cells   dna    4482.019481      2      1.10     % HEALTHY
+==========================================================================
+System Malignancy: 0/1 specimens corrupted (0.0% / 50.0% failure threshold)
+```
+
+Interactive meta-commands:
+* `:vitals` - Scan active heap specimen counts, read frequencies, mutation rates, and malignancy ratios.
+* `:chemo <var>` - Administer targeted chemotherapy to reset a mutated variable back to baseline.
+* `:flush` - Purge the interactive heap and reset to a sterile cleanroom state.
+* `:clear` - Clear console output without resetting variables.
+* `:help` - Display interactive manual and syntax tips.
+* `:exit` / `:quit` - Trigger programmed apoptosis and exit the shell.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Clinical Case Study: `hospital_core.tmq`
 
@@ -313,6 +390,43 @@ Notice that:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Metastasis Call Stack & Autopsy Traceback
+
+When systemic heap corruption crosses the **50% terminal threshold**, the virtual machine panics and generates a post-mortem diagnostic detailing Patient Zero, transmission trails, and active cellular frames:
+
+```text
+==============================================================================
+ [!] CRITICAL BIOLOGICAL CRASH: ORGAN FAILURE EXCEPTION
+==============================================================================
+ Malignant Saturation: 2/4 specimens corrupted (50.0% >= 50.0% fatal threshold)
+ Clinical Diagnostic: Cellular tissue suffered irreversible entropy collapse.
+
+--- PATIENT ZERO (Initial Site of Malignancy) ---
+  Specimen Name     : cycle
+  Malignant at Read : Read #4 (drifted to rate 2.55%)
+  Contagion Rate    : 2.55%
+  Origin Location   : gene 'main' at line 24
+
+--- METASTASIS TRANSMISSION TRAIL (Contagion Vectors) ---
+  [1] Contagion Spread: 'cycle' (reads: 94, rate: 5.00%) infected 'cycle' at line 24
+  ...
+  [10] Malignancy Spawned: 'beta' degraded at read #67 (drift rate: 5.00%) in main:26
+
+--- METASTASIS CALL STACK (Active Cellular Frames) ---
+  Frame [0] main() at examples/organ_failure_test.tmq:32 [sterile]
+
+--- SPECIMEN BIOPSY TELEMETRY (Active Memory Heap) ---
+  Specimen         Strain Value            Reads  Mutation   Status
+  --------------------------------------------------------------------------
+  cycle            dna    52.511859324581  135    5.00     % MALIGNANT [METASTASIZED]
+  beta             dna    112.81541821281  67     5.00     % MALIGNANT [METASTASIZED]
+  gamma            dna    131.38216628811  67     5.00     % HEALTHY
+  alpha            dna    47.259377430104  67     5.00     % HEALTHY
+==============================================================================
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Oncology Survival Guide
 
 * **Defensive RNA Anchoring:** Use `rna` for iteration limits, step offsets, and critical thresholds. `rna` cannot mutate, preventing infinite loops caused by decaying integers.
@@ -335,6 +449,11 @@ Notice that:
 - [x] Windows Registry `.tmq` double-click file association in CMD
 - [x] npm (`npm install -g tumorscript`) and pip (`pip install tumorscript`) distributions
 - [x] Comprehensive GitHub Wiki documentation suite
+- [x] Standard Library: I/O (`absorb`, `ingest`, `secrete`), String (`lyse`, `fuse`, `hypertrophy`, `atrophy`), Math (`sqrt`, `round`, `pow`), Time (`dormancy`, `metabolism`)
+- [x] Biomorphic Genomics & JSON Engine: `transcribe` (serialization), `express` (deserialization), `karyotype` (structural diagnostics), `transduce` (genetic splicing), file secretion/ingestion, and stochastic radiation entropy
+- [x] Biomorphic Capsid Binary Engine: `condense` (pack), `decondense` (unpack), `strand_length` (calcsize), `splice_into` (pack_into), `biopsy_from` (unpack_from), `cleave` (iter_unpack), `hex_biopsy`, and Shannon entropy telemetry
+- [x] Interactive Malignancy Shell (REPL) with real-time entropy observation and `:vitals` heap telemetry
+- [x] Metastasis Call Stack & Autopsy Traceback on systemic organ failure
 - [ ] Radiation Therapy (`radiation`): Purges 90% of memory corruption, but mutates all other variables by 30%
 - [ ] Network Metastasis: Spreading cancer across remote machines via raw TCP/IP sockets
 - [ ] CRISPR Gene Editing: Runtime AST self-modifying code rewrite engine
@@ -399,10 +518,10 @@ Wiki Documentation: [https://github.com/yamanist0/Tumor-Script/wiki](https://git
 [issues-shield]: https://img.shields.io/github/issues/yamanist0/Tumor-Script.svg?style=for-the-badge
 [issues-url]: https://github.com/yamanist0/Tumor-Script/issues
 [license-shield]: https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge
-[license-url]: LICENSE
-[version-shield]: https://img.shields.io/badge/version-0.1.0-rose.svg?style=for-the-badge
+[license-url]: https://github.com/yamanist0/Tumor-Script/blob/main/LICENSE
+[version-shield]: https://img.shields.io/badge/version-1.0.0-rose.svg?style=for-the-badge
 [version-url]: https://github.com/yamanist0/Tumor-Script/releases
-[product-screenshot]: icon.svg
+[product-screenshot]: https://raw.githubusercontent.com/yamanist0/Tumor-Script/main/icon.svg
 [Rust-badge]: https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white
 [Rust-url]: https://www.rust-lang.org/
 [Lua-badge]: https://img.shields.io/badge/Lua_5.4-2C2D72?style=for-the-badge&logo=lua&logoColor=white

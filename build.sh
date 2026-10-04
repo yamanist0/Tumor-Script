@@ -4,7 +4,7 @@ set -e
 # verify lua source syntax with luac if installed
 if command -v luac >/dev/null 2>&1; then
     echo "[1/3] checking lua bytecode syntax with luac..."
-    luac -p main.lua src/lexer.lua src/parser.lua src/memory.lua src/interpreter.lua
+    luac -p main.lua src/lexer.lua src/parser.lua src/memory.lua src/interpreter.lua src/repl.lua src/json.lua src/capsid.lua
 else
     echo "[1/3] luac not found, skipping syntax check..."
 fi

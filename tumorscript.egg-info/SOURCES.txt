@@ -1,3 +1,4 @@
+LICENSE
 README.md
 pyproject.toml
 tumorscript/__init__.py
@@ -9,7 +10,10 @@ tumorscript.egg-info/dependency_links.txt
 tumorscript.egg-info/entry_points.txt
 tumorscript.egg-info/top_level.txt
 tumorscript/bin/tumorscript.exe
+tumorscript/src/capsid.lua
 tumorscript/src/interpreter.lua
+tumorscript/src/json.lua
 tumorscript/src/lexer.lua
 tumorscript/src/memory.lua
 tumorscript/src/parser.lua
+tumorscript/src/repl.lua

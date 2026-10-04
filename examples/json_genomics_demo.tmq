@@ -1,0 +1,86 @@
+# ==========================================
+# genomic json demonstration
+# shows transcription and expression
+# ==========================================
+
+gene main():
+    print("==================================================")
+    print("   TUMORSCRIPT GENOMIC JSON STANDARD LIBRARY      ")
+    print("==================================================")
+    print("")
+
+    # expressing json payload into living cellular structures
+    print("[1] Expressing genetic JSON payload into membrane:")
+    rna raw_json = "{\"patient\":\"Subject-99\",\"stage\":3,\"vitals\":[98.6,120,80],\"quarantine\":true}"
+    dna specimen = express(raw_json)
+
+    print("  Patient ID       : ", specimen.patient)
+    print("  Tumor Stage      : ", specimen.stage)
+    print("  Quarantine Flag  : ", specimen.quarantine)
+    print("  Vitals Type      : ", strain(specimen.vitals))
+    print("  Total Vitals     : ", mass(specimen.vitals))
+    print("  First Vital      : ", specimen.vitals[0])
+    print("")
+
+    # mutating cellular receptors
+    print("[2] Mutating cellular receptors:")
+    specimen.stage = 4
+    specimen.remission_target = "chemo_cycle_2"
+    print("  Updated Stage    : ", specimen.stage)
+    print("  New Receptor     : ", specimen.remission_target)
+    print("")
+
+    # diagnostic karyotype inspection
+    print("[3] Diagnostic Karyotyping:")
+    dna diag = karyotype(specimen)
+    print("  Valid Payload    : ", diag.valid)
+    print("  Primary Strain   : ", diag.strain)
+    print("  Total Cell Mass  : ", diag.mass)
+    print("  Nesting Depth    : ", diag.depth)
+    print("  Receptor Count   : ", diag.receptors)
+    print("  Tumor Cell Count : ", diag.tumor_cells)
+    print("")
+
+    # genetic splicing with transduce
+    print("[4] Transducing external gene splice:")
+    rna splice_payload = "{\"chemo_response\":\"resistant\",\"antigen_delta\":15.4}"
+    transduce(specimen, splice_payload)
+    print("  Chemo Response   : ", specimen.chemo_response)
+    print("  Antigen Delta    : ", specimen.antigen_delta)
+    print("")
+
+    # transcribing to formatted json string
+    print("[5] Transcribing cellular specimen back to formatted JSON:")
+    dna pretty_json = transcribe(specimen, 2)
+    print(pretty_json)
+    print("")
+
+    # file secretion and ingestion on disk
+    print("[6] Secreting specimen to file and re-ingesting:")
+    rna filepath = "examples/patient_specimen.json"
+    dna saved = secrete_json(filepath, specimen, 2)
+    print("  Secretion status : ", saved)
+
+    dna ingested = ingest_json(filepath)
+    print("  Ingested Patient : ", ingested.patient)
+    print("  Ingested Res     : ", ingested.chemo_response)
+    print("")
+
+    # transcribing with stochastic genetic entropy
+    print("[7] Transcribing under simulated radiation entropy (5% drift):")
+    dna drifted_json = transcribe(specimen, 2, 0.05)
+    print(drifted_json)
+    print("")
+
+    # module namespace compatibility check
+    print("[8] Testing json and genome namespace calls:")
+    dna dumped = json.dumps(membrane("status", "sterile", "code", 200))
+    print("  json.dumps output: ", dumped)
+
+    dna loaded = genome.express("{\"cell\":\"t-cell\",\"count\":500}")
+    print("  genome.express   : ", loaded.cell, " with count ", loaded.count)
+    print("")
+
+    print("==================================================")
+    print("   GENOMICS DEMO COMPLETED SUCCESSFULLY           ")
+    print("==================================================")

@@ -1,9 +1,9 @@
 {
   "name": "tumorscript",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "An esoteric, biomorphic programming language runtime where data mutates when observed",
   "bin": {
-    "tumorscript": "./bin/cli.js"
+    "tumorscript": "bin/cli.js"
   },
   "scripts": {
     "test": "node ./bin/cli.js examples/simple_test.tmq",

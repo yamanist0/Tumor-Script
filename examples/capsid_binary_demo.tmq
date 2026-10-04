@@ -1,0 +1,88 @@
+# ==========================================
+# capsid binary packaging demo
+# packs and unpacks raw binary packets
+# ==========================================
+
+gene main():
+    print("==================================================")
+    print("   TUMORSCRIPT CAPSID BINARY STANDARD LIBRARY     ")
+    print("==================================================")
+    print("")
+
+    # 1. calculating binary packet size
+    print("[1] Calculating strand length:")
+    dna fmt = "<2h 8s ? d"
+    dna size = strand_length(fmt)
+    print("  Format String    : ", fmt)
+    print("  Molecular Weight : ", size, " bytes")
+    print("")
+
+    # 2. condensing values into binary capsid packet
+    print("[2] Condensing cellular data into binary packet:")
+    dna packet = condense(fmt, 101, 202, "Specimen", true, 98.6)
+    print("  Binary Length    : ", mass(packet), " bytes")
+    print("  Hex Biopsy:")
+    print(hex_biopsy(packet))
+    print("")
+
+    # 3. decondensing binary packet into living tumor array
+    print("[3] Decondensing binary packet:")
+    dna unpacked = decondense(fmt, packet)
+    print("  Unpacked Count   : ", mass(unpacked))
+    print("  Header ID 1      : ", unpacked[0])
+    print("  Header ID 2      : ", unpacked[1])
+    print("  Specimen Label   : ", unpacked[2])
+    print("  Malignant Flag   : ", unpacked[3])
+    print("  Core Temperature : ", unpacked[4])
+    print("")
+
+    # 4. splicing into existing buffer at offset
+    print("[4] Splicing into buffer at offset:")
+    dna buffer = "................................"
+    dna spliced = splice_into("<2i", buffer, 8, 500000, 900000)
+    print("  Spliced Buffer Hex Biopsy:")
+    print(hex_biopsy(spliced))
+    
+    dna extracted = biopsy_from("<2i", spliced, 8)
+    print("  Biopsy extracted : ", extracted[0], ", ", extracted[1])
+    print("")
+
+    # 5. iterative unpacking with cleave
+    print("[5] Cleaving stream of repeated records:")
+    dna stream = condense("<2h", 10, 20) + condense("<2h", 30, 40) + condense("<2h", 50, 60)
+    dna records = cleave("<2h", stream)
+    print("  Total Cleaved Records: ", mass(records))
+    for rec in records:
+        print("    Record Slice: ", rec[0], ", ", rec[1])
+    print("")
+
+    # 6. diagnostic binary inspection
+    print("[6] Diagnostic Binary Karyotype:")
+    dna diag = karyotype_binary(packet)
+    print("  Packet Size      : ", diag.size, " bytes")
+    print("  Shannon Entropy  : ", diag.entropy, " bits per byte")
+    print("  Null Byte Ratio  : ", diag.null_ratio)
+    print("  ASCII Ratio      : ", diag.ascii_ratio)
+    print("  Strain Type      : ", diag.strain)
+    print("")
+
+    # 7. simulated radiation bit flips
+    print("[7] Simulating radiation mutation drift on binary packet:")
+    dna irradiated = radiation_drift(packet, 0.08)
+    print(hex_biopsy(irradiated))
+    print("")
+
+    # 8. module namespace compatibility check
+    print("[8] Testing module namespace calls:")
+    dna bin_test = capsid.pack("<i", 42)
+    dna res_test = capsid.unpack("<i", bin_test)
+    print("  capsid.pack and unpack : ", res_test[0])
+
+    dna bin_struct = struct.pack(">h", 777)
+    dna res_struct = struct.unpack(">h", bin_struct)
+    print("  struct alias check     : ", res_struct[0])
+    print("")
+
+    print("==================================================")
+    print("   CAPSID BINARY DEMO COMPLETED SUCCESSFULLY      ")
+    print("==================================================")

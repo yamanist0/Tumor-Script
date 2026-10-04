@@ -8,6 +8,9 @@ const LEXER_SRC: &str = include_str!("../src/lexer.lua");
 const PARSER_SRC: &str = include_str!("../src/parser.lua");
 const MEMORY_SRC: &str = include_str!("../src/memory.lua");
 const INTERPRETER_SRC: &str = include_str!("../src/interpreter.lua");
+const REPL_SRC: &str = include_str!("../src/repl.lua");
+const JSON_SRC: &str = include_str!("../src/json.lua");
+const CAPSID_SRC: &str = include_str!("../src/capsid.lua");
 
 #[cfg(windows)]
 #[link(name = "shell32")]
@@ -83,6 +86,22 @@ fn run() -> LuaResult<()> {
         }
     }
 
+    // enable ansi escape processing on windows for colored output
+    #[cfg(windows)]
+    {
+        use std::os::windows::io::AsRawHandle;
+        let handle = std::io::stdout().as_raw_handle();
+        unsafe {
+            let mut mode: u32 = 0;
+            extern "system" {
+                fn GetConsoleMode(h: *mut std::ffi::c_void, m: *mut u32) -> i32;
+                fn SetConsoleMode(h: *mut std::ffi::c_void, m: u32) -> i32;
+            }
+            GetConsoleMode(handle as *mut _, &mut mode);
+            SetConsoleMode(handle as *mut _, mode | 0x0004);
+        }
+    }
+
     // create the lua state
     let lua = Lua::new();
 
@@ -93,12 +112,24 @@ fn run() -> LuaResult<()> {
     }
     lua.globals().set("arg", arg_table)?;
 
+    // native sleep helper for lua
+    lua.globals().set(
+        "__native_sleep",
+        lua.create_function(|_, ms: u64| {
+            std::thread::sleep(std::time::Duration::from_millis(ms));
+            Ok(())
+        })?,
+    )?;
+
     // preload bundled modules into package preload
     let preload: mlua::Table = lua.load("package.preload").eval()?;
     preload.set("src.lexer", lua.load(LEXER_SRC).into_function()?)?;
     preload.set("src.parser", lua.load(PARSER_SRC).into_function()?)?;
     preload.set("src.memory", lua.load(MEMORY_SRC).into_function()?)?;
     preload.set("src.interpreter", lua.load(INTERPRETER_SRC).into_function()?)?;
+    preload.set("src.repl", lua.load(REPL_SRC).into_function()?)?;
+    preload.set("src.json", lua.load(JSON_SRC).into_function()?)?;
+    preload.set("src.capsid", lua.load(CAPSID_SRC).into_function()?)?;
 
     // execute the main script
     lua.load(MAIN_SRC).exec()?;

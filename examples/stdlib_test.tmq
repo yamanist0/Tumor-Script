@@ -1,0 +1,66 @@
+# test tumorscript standard library
+
+gene test_strings():
+    print("--- testing string and array builtins ---")
+    dna text = "   cell,tissue,organ   "
+    dna cleaned = trim(text)
+    print("trimmed: ", cleaned)
+    print("uppercase: ", upper(cleaned))
+    print("lowercase: ", lower("HEMOGLOBIN"))
+
+    dna parts = split(cleaned, ",")
+    print("split count: ", len(parts))
+    print("part 0: ", parts[0])
+    print("part 1: ", parts[1])
+    print("part 2: ", parts[2])
+
+    dna rejoined = join(parts, " -> ")
+    print("rejoined: ", rejoined)
+
+    print("contains organ: ", contains(cleaned, "organ"))
+    print("contains virus: ", contains(cleaned, "virus"))
+
+    dna sliced = slice(cleaned, 0, 4)
+    print("sliced prefix: ", sliced)
+
+gene test_math():
+    print("--- testing math builtins ---")
+    print("sqrt 144: ", sqrt(144))
+    print("floor 4.9: ", floor(4.9))
+    print("ceil 4.1: ", ceil(4.1))
+    print("round 3.14159: ", round(3.14159, 2))
+    print("abs -42: ", abs(-42))
+    print("min 10 20: ", min(10, 20))
+    print("max 10 20: ", max(10, 20))
+    print("pow 2 8: ", pow(2, 8))
+
+    dna r1 = random()
+    print("random float: ", r1 >= 0 and r1 <= 1)
+    dna r2 = random(1, 100)
+    print("random int range: ", r2 >= 1 and r2 <= 100)
+
+gene test_file_io():
+    print("--- testing file io ---")
+    rna test_path = "examples/test_tmp.txt"
+    dna wrote = write_file(test_path, "mitosis data protocol\n")
+    print("wrote file: ", wrote)
+    print("file exists: ", file_exists(test_path))
+
+    append_file(test_path, "second cellular layer\n")
+    dna content = read_file(test_path)
+    print("read file length: ", len(content))
+
+gene test_time():
+    print("--- testing time and sleep ---")
+    dna t1 = clock()
+    sleep(0.05)
+    dna t2 = clock()
+    print("slept for at least 0.04s: ", (t2 - t1) >= 0.04)
+    print("epoch time: ", time() > 1700000000)
+
+gene main():
+    test_strings()
+    test_math()
+    test_file_io()
+    test_time()
+    print("--- standard library tests complete ---")

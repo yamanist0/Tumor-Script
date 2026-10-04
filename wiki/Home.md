@@ -15,9 +15,11 @@ In TumorScript:
 | Document | Description |
 |---|---|
 | [Setup and Installation](Setup-and-Installation) | npm, pip, native binary compilation, and Windows .tmq file association |
-| [Language Specification](Language-Specification) | Formal spec, file extension ecosystem, and design paradigms |
-| [Biomorphic Runtime](Biomorphic-Runtime) | Entropy counters, metastasis dynamics, chemo hazards, and organ failure |
+| [Interactive Shell (REPL)](Interactive-REPL) | Interactive malignancy shell, line-by-line entropy observation, and `:vitals` commands |
+| [Language Specification](Language-Specification) | Formal spec, .tmq file format, and language grammar |
+| [Biomorphic Runtime](Biomorphic-Runtime) | Entropy counters, metastasis dynamics, chemo hazards, organ failure, and autopsy traceback |
 | [Syntax and Keywords](Syntax-and-Keywords) | Complete keyword dictionary (`dna`, `rna`, `cell`, `gene`, etc.) and grammar |
+| [Standard Library](Standard-Library) | Built-in routines for I/O, strings, math, and time (`absorb`, `lyse`, `dormancy`, etc.) |
 | [Architecture and Compiler](Architecture-and-Compiler) | Indentation lexer, AST parser, memory layout, and 20% quarantine validation |
 | [Examples and Cookbook](Examples-and-Cookbook) | Practical survival recipes, hospital core example, and defensive patterns |
 

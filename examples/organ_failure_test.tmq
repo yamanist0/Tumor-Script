@@ -1,0 +1,31 @@
+# organ failure test
+# creates many dna variables reads them aggressively to trigger malignancy
+# and provoke ORGAN_FAILURE_EXCEPTION with full traceback
+
+gene corrupt_data(patient_data):
+    dna i = 0
+    while i < 200:
+        dna dump = patient_data * 1.01
+        i = i + 1
+    apoptosis patient_data
+
+gene analyze(sample):
+    dna result = corrupt_data(sample)
+    apoptosis result
+
+gene main():
+    dna alpha = 50
+    dna beta = 75
+    dna gamma = 100
+
+    # read aggressively to trigger mutations
+    dna cycle = 0
+    while cycle < 300:
+        cycle = cycle + 1
+        dna a_read = alpha
+        dna b_read = beta
+        dna g_read = gamma
+
+    # try to use the corrupted data in a gene call
+    dna final = analyze(alpha)
+    print("final: ", final)

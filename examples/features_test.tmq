@@ -1,0 +1,56 @@
+# test tumorscript core features
+
+gene test_arrays():
+    print("--- testing tumor arrays ---")
+    dna t = tumor(10, 20, 30)
+    print("tumor mass: ", mass(t))
+    print("tumor strain: ", strain(t))
+    print("first element: ", t[0])
+    print("biopsy read: ", biopsy(t, 1))
+    spread(t, 40)
+    print("mass after spread: ", mass(t))
+    dna excised = excise(t, 0)
+    print("excised item: ", excised)
+    print("mass after excise: ", mass(t))
+
+gene test_membranes():
+    print("--- testing cell membranes ---")
+    dna m = membrane("glucose", 5, "insulin", 2)
+    print("membrane strain: ", strain(m))
+    print("glucose receptor: ", m.glucose)
+    print("bracket access: ", m["insulin"])
+    bind(m, "oxygen", 99)
+    print("bound oxygen: ", m.oxygen)
+    dna old_insulin = unbind(m, "insulin")
+    print("unbound insulin: ", old_insulin)
+    print("membrane mass: ", mass(m))
+    dna recs = receptors(m)
+    print("receptors mass: ", mass(recs))
+
+gene test_loops():
+    print("--- testing loops and range ---")
+    dna samples = tumor(1, 2, 3, 4, 5)
+    for s in samples:
+        if s < 2:
+            relapse
+        if s > 3:
+            remission
+        print("sample: ", s)
+    
+    print("--- testing range loop ---")
+    for idx in range(0, 3):
+        print("range idx: ", idx)
+
+gene test_necrosis():
+    print("--- testing necrosis variable decay ---")
+    dna temp = necrosis(2, 42)
+    print("read 1: ", temp)
+    print("read 2: ", temp)
+    print("read 3: ", temp)
+
+gene main():
+    test_arrays()
+    test_membranes()
+    test_loops()
+    test_necrosis()
+    print("--- all tests finished ---")

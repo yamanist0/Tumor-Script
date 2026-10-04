@@ -50,11 +50,15 @@ lexer.TOKEN = {
     GTE         = "GTE",
     LPAREN      = "LPAREN",
     RPAREN      = "RPAREN",
+    LBRACKET    = "LBRACKET",
+    RBRACKET    = "RBRACKET",
     LBRACE      = "LBRACE",    -- only valid after quarantine
     RBRACE      = "RBRACE",    -- only valid to close quarantine
     COMMA       = "COMMA",
     COLON       = "COLON",
     DOT         = "DOT",
+    REMISSION   = "REMISSION",
+    RELAPSE     = "RELAPSE",
 
     -- structure
     INDENT      = "INDENT",
@@ -86,6 +90,8 @@ local KEYWORDS = {
     ["true"]    = lexer.TOKEN.TRUE,
     ["false"]   = lexer.TOKEN.FALSE,
     ["nil"]     = lexer.TOKEN.NIL,
+    remission   = lexer.TOKEN.REMISSION,
+    relapse     = lexer.TOKEN.RELAPSE,
 }
 
 local function make_token(type, value, line, col)
@@ -139,6 +145,7 @@ function lexer.tokenize(source, filename)
                 advance()
                 local esc = advance()
                 if esc == "n" then buf[#buf + 1] = "\n"
+                elseif esc == "r" then buf[#buf + 1] = "\r"
                 elseif esc == "t" then buf[#buf + 1] = "\t"
                 elseif esc == "\\" then buf[#buf + 1] = "\\"
                 elseif esc == quote then buf[#buf + 1] = quote
@@ -199,14 +206,17 @@ function lexer.tokenize(source, filename)
     -- handle indentation at the start of a logical line
     local function handle_indentation()
         local spaces = 0
-        while pos <= len and source:sub(pos, pos) == " " do
-            advance()
-            spaces = spaces + 1
-        end
-        -- tabs count as 4 spaces
-        while pos <= len and source:sub(pos, pos) == "\t" do
-            advance()
-            spaces = spaces + 4
+        while pos <= len do
+            local c = source:sub(pos, pos)
+            if c == " " then
+                advance()
+                spaces = spaces + 1
+            elseif c == "\t" then
+                advance()
+                spaces = spaces + 4
+            else
+                break
+            end
         end
 
         -- skip blank lines and comment-only lines
@@ -315,6 +325,8 @@ function lexer.tokenize(source, filename)
         elseif ch == "," then advance(); emit(lexer.TOKEN.COMMA, ",")
         elseif ch == ":" then advance(); emit(lexer.TOKEN.COLON, ":")
         elseif ch == "." then advance(); emit(lexer.TOKEN.DOT, ".")
+        elseif ch == "[" then advance(); emit(lexer.TOKEN.LBRACKET, "[")
+        elseif ch == "]" then advance(); emit(lexer.TOKEN.RBRACKET, "]")
 
         -- braces - only valid in quarantine context
         elseif ch == "{" then
@@ -336,6 +348,10 @@ function lexer.tokenize(source, filename)
         else
             return nil, "unexpected character '" .. ch .. "' at line " .. line
         end
+    end
+
+    if brace_depth > 0 then
+        return nil, "SYNTAX_TUMOR: unclosed '{' in quarantine block at end of file"
     end
 
     -- emit remaining dedents

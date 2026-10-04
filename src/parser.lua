@@ -6,10 +6,18 @@ local parser = {}
 
 local TOKEN -- will be set from lexer module
 
--- ast node constructors
+local active_parser_state = nil
+
+-- construct ast node and record line
 local function node(type, props)
     props = props or {}
     props.node_type = type
+    if not props.line and active_parser_state then
+        local cur = active_parser_state:current()
+        if cur and cur.line and cur.line > 0 then
+            props.line = cur.line
+        end
+    end
     return props
 end
 
@@ -17,13 +25,15 @@ end
 local State = {}
 State.__index = State
 
-function State.new(tokens, source)
+function State.new(tokens, source, options)
     local self = setmetatable({}, State)
     self.tokens = tokens
     self.source = source
+    self.options = options or {}
     self.pos = 1
     self.total_lines = 0
     self.quarantine_lines = 0
+    active_parser_state = self
     -- count total source lines for quarantine limit enforcement
     for _ in source:gmatch("[^\n]+") do
         self.total_lines = self.total_lines + 1
@@ -78,6 +88,9 @@ end
 
 -- check quarantine limit (max 20% of code)
 function State:check_quarantine_limit(line_count)
+    if self.options and (self.options.is_repl or self.options.skip_quarantine_limit) then
+        return
+    end
     self.quarantine_lines = self.quarantine_lines + line_count
     local ratio = self.quarantine_lines / math.max(self.total_lines, 1)
     if ratio > 0.20 then
@@ -164,7 +177,7 @@ function State:parse_unary()
     return self:parse_primary()
 end
 
-function State:parse_primary()
+function State:parse_primary_base()
     local tok = self:current()
 
     -- number literal
@@ -195,7 +208,7 @@ function State:parse_primary()
         return node("nil_literal", {})
     end
 
-    -- mitosis expression (object creation)
+    -- mitosis expression
     if tok.type == "MITOSIS" then
         self:advance()
         local class_name = self:expect("IDENTIFIER", "expected cell name after 'mitosis'")
@@ -212,39 +225,75 @@ function State:parse_primary()
         return expr
     end
 
-    -- identifier (variable access, possibly with dot access or function call)
-    if tok.type == "IDENTIFIER" then
-        local name = self:advance().value
-        local expr = node("identifier", { name = name })
-
-        -- handle chained dot access and function calls
-        while true do
-            if self:current().type == "DOT" then
+    -- tumor array literal
+    if tok.type == "LBRACKET" then
+        self:advance()
+        local elements = {}
+        if self:current().type ~= "RBRACKET" then
+            elements[#elements + 1] = self:parse_expression()
+            while self:current().type == "COMMA" do
                 self:advance()
-                local field = self:expect("IDENTIFIER", "expected field name after '.'")
-                expr = node("dot_access", { object = expr, field = field.value })
-            elseif self:current().type == "LPAREN" then
-                self:advance()
-                local args = {}
-                if self:current().type ~= "RPAREN" then
-                    args[#args + 1] = self:parse_expression()
-                    while self:current().type == "COMMA" do
-                        self:advance()
-                        args[#args + 1] = self:parse_expression()
-                    end
-                end
-                self:expect("RPAREN", "expected ')' after function arguments")
-                expr = node("call_expr", { callee = expr, arguments = args })
-            else
-                break
+                if self:current().type == "RBRACKET" then break end
+                elements[#elements + 1] = self:parse_expression()
             end
         end
+        self:expect("RBRACKET", "expected ']' to close tumor array")
+        return node("tumor_literal", { elements = elements })
+    end
 
-        return expr
+    -- identifier
+    if tok.type == "IDENTIFIER" then
+        local name = self:advance().value
+        return node("identifier", { name = name })
     end
 
     error(string.format("PARSE_TUMOR at line %d: unexpected token '%s' (%s)",
         tok.line or 0, tostring(tok.value), tok.type))
+end
+
+function State:parse_postfix()
+    local expr = self:parse_primary_base()
+
+    -- handle chained calls dot access and bracket lookups
+    while true do
+        if self:current().type == "DOT" then
+            self:advance()
+            local cur = self:current()
+            local field_name = nil
+            if cur.type == "IDENTIFIER" or (type(cur.value) == "string" and cur.value:match("^[%a_][%w_]*$")) then
+                field_name = cur.value
+                self:advance()
+            else
+                field_name = self:expect("IDENTIFIER", "expected field name after '.'").value
+            end
+            expr = node("dot_access", { object = expr, field = field_name })
+        elseif self:current().type == "LPAREN" then
+            self:advance()
+            local args = {}
+            if self:current().type ~= "RPAREN" then
+                args[#args + 1] = self:parse_expression()
+                while self:current().type == "COMMA" do
+                    self:advance()
+                    args[#args + 1] = self:parse_expression()
+                end
+            end
+            self:expect("RPAREN", "expected ')' after function arguments")
+            expr = node("call_expr", { callee = expr, arguments = args })
+        elseif self:current().type == "LBRACKET" then
+            self:advance()
+            local index_expr = self:parse_expression()
+            self:expect("RBRACKET", "expected ']' after index")
+            expr = node("index_access", { object = expr, index = index_expr })
+        else
+            break
+        end
+    end
+
+    return expr
+end
+
+function State:parse_primary()
+    return self:parse_postfix()
 end
 
 -- statement parsing
@@ -300,13 +349,30 @@ function State:parse_statement()
         return self:parse_while()
     end
 
+    -- for loop
+    if tok.type == "FOR" then
+        return self:parse_for()
+    end
+
+    -- remission loop break
+    if tok.type == "REMISSION" then
+        self:advance()
+        return node("remission_statement", {})
+    end
+
+    -- relapse loop continue
+    if tok.type == "RELAPSE" then
+        self:advance()
+        return node("relapse_statement", {})
+    end
+
     -- print statement
     if tok.type == "PRINT" then
         return self:parse_print()
     end
 
     -- assignment or expression statement
-    if tok.type == "IDENTIFIER" then
+    if tok.type == "IDENTIFIER" or tok.type == "LPAREN" or tok.type == "LBRACKET" then
         return self:parse_assignment_or_expr()
     end
 
@@ -479,6 +545,21 @@ function State:parse_while()
     return node("while_statement", { condition = condition, body = body })
 end
 
+-- for loop iteration
+function State:parse_for()
+    self:advance()
+    local var_tok = self:expect("IDENTIFIER", "expected loop variable name after 'for'")
+    self:expect("IN", "expected 'in' after loop variable")
+    local iterable = self:parse_expression()
+    self:expect("COLON", "expected ':' after for condition")
+    local body = self:parse_block()
+    return node("for_statement", {
+        var_name = var_tok.value,
+        iterable = iterable,
+        body = body,
+    })
+end
+
 function State:parse_print()
     self:advance() -- consume 'print'
     self:expect("LPAREN", "expected '(' after print")
@@ -538,23 +619,38 @@ end
 
 -- main parse entry point
 
-function parser.parse(tokens, source)
-    TOKEN = require("src.lexer").TOKEN  -- grab token type constants
+function parser.parse(tokens, source, options)
+    TOKEN = require("src.lexer").TOKEN
+    options = options or {}
     
-    local state = State.new(tokens, source)
-    local program = { node_type = "program", body = {} }
-    
-    state:skip_newlines()
-    
-    while not state:at_end() do
-        local stmt = state:parse_statement()
-        if stmt then
-            program.body[#program.body + 1] = stmt
-        end
+    local ok, res = pcall(function()
+        local state = State.new(tokens, source, options)
+        local program = { node_type = "program", body = {} }
+        
         state:skip_newlines()
+        
+        while not state:at_end() do
+            local stmt = state:parse_statement()
+            if stmt then
+                program.body[#program.body + 1] = stmt
+            end
+            state:skip_newlines()
+        end
+        
+        return program
+    end)
+    
+    if not ok then
+        local err_msg = tostring(res)
+        -- extract clean tumor error message
+        local clean = err_msg:match("([A-Z_]+ at line .*)")
+        if clean then
+            return nil, clean
+        end
+        return nil, err_msg
     end
     
-    return program, nil
+    return res, nil
 end
 
 return parser

@@ -26,7 +26,37 @@ Variables designated with `rna` are completely immune to entropic decay. Their m
 
 ---
 
-## 2. Metastasis and Contagion Spread
+## 2. Tumor Arrays & Surgical Biopsy Mechanics
+
+Arrays in TumorScript behave as biological tumor clusters (`tumor`):
+* **Individual Cell Mutation:** When indexing into a tumor (`cluster[i]`), each element tracks its own independent mutation rate and observation count. Accessing a cell mutates that specific cell.
+* **Surgical Biopsy (`biopsy(tumor, index)`):** Developers can perform a clean surgical biopsy. A biopsy reads an element safely without triggering any mutation drift or elevating read counters.
+* **Tumor Spread (`spread(tumor, value)`):** Appends a new cellular unit to the cluster, initializing its baseline genetic snapshot.
+* **Surgical Excision (`excise(tumor, index)`):** Removes an element cleanly from the tissue cluster, returning the excised specimen.
+
+---
+
+## 3. Cell Membrane Receptor Kinetics
+
+Membranes (`membrane`) model lipid bilayers with receptor-ligand docking sites:
+* **Receptor Docking (`bind(membrane, key, value)`):** Attaches a ligand value to the specified receptor key.
+* **Receptor Cleavage (`unbind(membrane, key)`):** Detaches and returns the bound ligand.
+* **Surface Scanning (`receptors(membrane)`):** Extracts all active receptor identifiers as a tumor array for cellular iteration.
+
+---
+
+## 4. Necrosis: Programmed Variable Decay
+
+The `necrosis(limit, initial_value)` primitive models uncontrolled cell death following severe tissue distress:
+* **Read Lifespan:** A variable allocated via `necrosis` maintains a strict read quota.
+* **Cellular Expiry:** When the variable is read past its quota, the runtime emits:
+  `NECROSIS: variable '<name>' has decayed beyond recovery`
+  and immediately resolves the variable to `nil`.
+* **Chemotherapeutic Reset:** Applying `chemo` to a necrosis variable resets its read counter to zero if lethal toxicity is averted.
+
+---
+
+## 5. Metastasis and Contagion Spread
 
 Variables do not exist in isolation. Infection propagates through mathematical operations and functional boundaries:
 
@@ -44,7 +74,7 @@ When mutated data is passed as arguments into a `gene` (function), the internal 
 
 ---
 
-## 3. Immune Interventions
+## 6. Immune Interventions
 
 Developers possess three specific medical interventions to maintain computational viability:
 
@@ -62,7 +92,7 @@ Developers possess three specific medical interventions to maintain computationa
 
 ---
 
-## 4. Organ Failure (`ORGAN_FAILURE_EXCEPTION`)
+## 7. Organ Failure (`ORGAN_FAILURE_EXCEPTION`)
 
 The runtime constantly monitors the ratio of malignant variables across the active heap:
 
@@ -75,3 +105,14 @@ If $\text{Malignancy Ratio} \ge 50\%$ in a system containing active memory cells
 ```
 FATAL: ORGAN_FAILURE_EXCEPTION - 3/4 variables are malignant (75.0%)
 ```
+
+---
+
+## 8. Metastasis Call Stack & Post-Mortem Autopsy Traceback
+
+When `ORGAN_FAILURE_EXCEPTION` occurs, execution halts and the runtime generates a comprehensive, color-coded clinical autopsy report:
+
+* **Patient Zero Identification:** Pinpoints the exact initial variable where malignancy originated, the read cycle count at which corruption occurred, the mutation delta rate, and the originating gene and line number.
+* **Metastasis Transmission Trail:** Chronologically logs contagion transmission vectors where malignant variables infected healthy variables during arithmetic expressions and assignments (`x infected y at line N`).
+* **Active Cellular Call Stack:** Details the active gene call stack frames with nesting depths, function names, source file paths, line numbers, and cellular state (`[sterile]` vs `[infected]`).
+* **Specimen Biopsy Telemetry:** Renders an exhaustive pathology table of the active memory heap, showing each specimen's biological strain (`dna`, `rna`, `tumor`, `membrane`), degraded value, read counter, mutation percentage, and status (`MALIGNANT [METASTASIZED]` or `HEALTHY`).

@@ -15,8 +15,9 @@ memory.ORGAN_FAILURE_RATIO = 0.50        -- 50% malignant vars = system crash
 memory.QUARANTINE_CODE_LIMIT = 0.20      -- max 20% of code can be quarantined
 
 -- dna variable structure
-local function make_dna(value)
+local function make_dna(value, name)
     return {
+        name = name,
         type = "dna",
         value = value,
         original_value = value,
@@ -26,9 +27,10 @@ local function make_dna(value)
     }
 end
 
--- rna variable structure (immune to mutation)
-local function make_rna(value)
+-- rna variable structure
+local function make_rna(value, name)
     return {
+        name = name,
         type = "rna",
         value = value,
         original_value = value,
@@ -40,11 +42,15 @@ end
 
 function memory.new()
     local self = setmetatable({}, memory)
-    self.scopes = { {} }  -- stack of scope tables
+    self.scopes = { {} }
     self.total_vars = 0
     self.malignant_count = 0
     self.in_quarantine = false
-    self.gene_infection = {}  -- tracks gene contamination levels
+    self.gene_infection = {}
+    self.patient_zero = nil
+    self.metastasis_chain = {}
+    self.current_gene = "global"
+    self.current_line = 1
     return self
 end
 
@@ -75,13 +81,34 @@ function memory:declare(name, value, var_type)
 
     local var
     if var_type == "rna" then
-        var = make_rna(value)
+        var = make_rna(value, name)
     else
-        var = make_dna(value)
+        var = make_dna(value, name)
+    end
+    var.name = name
+    var.declared_gene = self.current_gene or "global"
+    var.declared_line = self.current_line or 1
+
+    -- unpack necrosis wrapper if present
+    if type(value) == "table" and value.__is_necrosis then
+        var.is_necrosis = true
+        var.necrosis_limit = value.limit
+        var.necrosis_reads = 0
+        var.value = value.value
+        var.original_value = value.value
+    end
+
+    -- adjust counts if variable already exists
+    local existing = scope[name]
+    if existing then
+        if existing.is_malignant then
+            self.malignant_count = self.malignant_count - 1
+        end
+    else
+        self.total_vars = self.total_vars + 1
     end
 
     scope[name] = var
-    self.total_vars = self.total_vars + 1
     return var
 end
 
@@ -100,6 +127,16 @@ function memory:read(name)
     local var = self:lookup(name)
     if not var then
         return nil, "UNDEFINED_CELL: '" .. name .. "' does not exist"
+    end
+
+    -- necrosis decay tracking
+    if var.is_necrosis then
+        if var.necrosis_reads >= var.necrosis_limit then
+            print("NECROSIS: variable '" .. name .. "' has decayed beyond recovery")
+            var.value = nil
+            return nil
+        end
+        var.necrosis_reads = var.necrosis_reads + 1
     end
 
     -- rna is immune, always returns clean value
@@ -168,7 +205,26 @@ function memory:read(name)
 
     if not var.is_malignant and is_now_malignant then
         var.is_malignant = true
+        var.malignant_at_read = var.read_count
+        var.malignant_at_gene = self.current_gene or "global"
+        var.malignant_at_line = self.current_line or 1
+        var.malignant_val = val
         self.malignant_count = self.malignant_count + 1
+
+        local event = {
+            event = "malignant",
+            var_name = name,
+            read_count = var.read_count,
+            value = val,
+            original_value = var.original_value,
+            mutation_rate = var.mutation_rate,
+            gene = self.current_gene or "global",
+            line = self.current_line or 1,
+        }
+        self.metastasis_chain[#self.metastasis_chain + 1] = event
+        if not self.patient_zero then
+            self.patient_zero = event
+        end
     end
 
     -- check for organ failure
@@ -188,7 +244,17 @@ function memory:write(name, value)
         return nil, "IMMUNE_VIOLATION: cannot reassign rna constant '" .. name .. "'"
     end
 
-    var.value = value
+    -- unpack necrosis wrapper if present
+    if type(value) == "table" and value.__is_necrosis then
+        var.is_necrosis = true
+        var.necrosis_limit = value.limit
+        var.necrosis_reads = 0
+        var.value = value.value
+        var.original_value = value.value
+    else
+        var.value = value
+        var.original_value = value
+    end
     return value
 end
 
@@ -213,6 +279,9 @@ function memory:apply_chemo(name)
     var.value = var.original_value
     var.mutation_rate = memory.INITIAL_MUTATION_RATE
     var.read_count = 0
+    if var.is_necrosis then
+        var.necrosis_reads = 0
+    end
     if var.is_malignant then
         var.is_malignant = false
         self.malignant_count = self.malignant_count - 1
@@ -231,21 +300,42 @@ function memory:try_infect(target_name, source_var)
     local target = self:lookup(target_name)
     if not target or target.type == "rna" then return end
 
-    -- 30% chance of infection spreading
+    -- spread infection chance
     if math.random() < memory.INFECTION_CHANCE then
+        local was_malignant = target.is_malignant
         target.mutation_rate = math.min(
             target.mutation_rate + source_var.mutation_rate * 0.5,
             memory.MAX_MUTATION_RATE
         )
         if not target.is_malignant and target.mutation_rate >= memory.MALIGNANT_THRESHOLD then
             target.is_malignant = true
+            target.malignant_at_read = target.read_count
+            target.malignant_at_gene = self.current_gene or "global"
+            target.malignant_at_line = self.current_line or 1
+            target.malignant_val = target.value
             self.malignant_count = self.malignant_count + 1
+        end
+
+        local event = {
+            event = "contagion",
+            source = source_var.name or "data",
+            target = target_name,
+            source_reads = source_var.read_count or 0,
+            source_rate = source_var.mutation_rate or 0,
+            target_rate = target.mutation_rate,
+            became_malignant = (not was_malignant and target.is_malignant),
+            gene = self.current_gene or "global",
+            line = self.current_line or 1,
+        }
+        self.metastasis_chain[#self.metastasis_chain + 1] = event
+        if not self.patient_zero and target.is_malignant then
+            self.patient_zero = event
         end
     end
 end
 
--- infect a gene's internal state when called with mutated args
-function memory:infect_gene(gene_name, arg_mutation_rate)
+-- infect a gene state when called with mutated args
+function memory:infect_gene(gene_name, arg_mutation_rate, arg_name, arg_reads)
     if not self.gene_infection[gene_name] then
         self.gene_infection[gene_name] = 0
     end
@@ -253,6 +343,16 @@ function memory:infect_gene(gene_name, arg_mutation_rate)
         self.gene_infection[gene_name] + arg_mutation_rate * 0.3,
         memory.MAX_MUTATION_RATE
     )
+    self.metastasis_chain[#self.metastasis_chain + 1] = {
+        event = "gene_infection",
+        gene = gene_name,
+        source = arg_name or "variable",
+        source_reads = arg_reads or 0,
+        source_rate = arg_mutation_rate or 0,
+        viral_load = self.gene_infection[gene_name],
+        caller_gene = self.current_gene or "global",
+        line = self.current_line or 1,
+    }
 end
 
 -- get a gene's current infection level

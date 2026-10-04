@@ -5,7 +5,7 @@ REM verify lua source syntax with luac if available
 where luac >nul 2>nul
 if %errorlevel% equ 0 (
     echo [1/3] checking lua bytecode syntax with luac...
-    luac -p main.lua src\lexer.lua src\parser.lua src\memory.lua src\interpreter.lua
+    luac -p main.lua src\lexer.lua src\parser.lua src\memory.lua src\interpreter.lua src\repl.lua src\json.lua src\capsid.lua
     if %errorlevel% neq 0 (
         echo luac syntax check failed
         exit /b 1
