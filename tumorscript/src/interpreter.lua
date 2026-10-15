@@ -669,6 +669,7 @@ function interpreter:eval_expression(expr)
     elseif t == "nil_literal" then
         return nil
     elseif t == "tumor_literal" then
+        -- empty table to hold the elements
         local elems = {}
         for _, el_expr in ipairs(expr.elements) do
             elems[#elems + 1] = self:eval_expression(el_expr)
